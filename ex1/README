@@ -1,0 +1,31 @@
+*********,*********
+Ron Mordoch (*********), Yarden Gavish (*********)
+EX: 1
+
+FILES:
+osm.cpp -- implementation of the header file
+osm.h -- header file supplied by course staff
+
+REMARKS:
+We used the function gettimeoftheday to get the time before and after performing the specified
+operations - simple operation, function call and syscall.
+We then converted the microseconds to nanoseconds and computed the average time it took to
+perform the operation, that is diving by the number of iterations multiplied by the number of
+the operations executed inside the for loop.
+
+ANSWERS:
+
+Q1: (Strace)
+The program exits if the number of parameters sent to it was different than 1.
+Else, if the program received only 1 parameter:
+At first the program creates a directory with 775 permissions (grants read/write/execute
+permission for user and group, and only read/execute permission for others) that is called
+"Welcome".
+Then it creates another directory inside "Welcome" called "To" with the same
+permissions.
+ Afterwards, the program creates a file called "OS2020" at the location
+"Welcome/To" with writing permissions only, or if the file of that name in that location
+already exists it will be automatically truncated to length 0.
+ The program checks that the file was opened properly. Then it writes into that file:
+ "(username) If you havent read the course guidelines yet, do it right now!".
+ It then closes the file, removes the file "OS2020", the "To" directory and the "Welcome" directory.

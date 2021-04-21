@@ -1,0 +1,14 @@
+mordoch.ron, yar_gav
+Ron Mordoch (315427559), Yarden Gavish (206234395)
+EX: 3
+
+FILES:
+README
+Makefile
+VirtualMemory.cpp
+
+REMARKS:
+We implemented the hierarchical page table as described in the exercises.
+For both reading and writing, we first translate the given virtual address into a physical address by traversing the
+entire page table and then finding the frame that matches the conditions : first an empty frame, then an unused frame,
+and then an evicted frame. We then take the processed address and perform the read/write operations on it.

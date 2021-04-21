@@ -1,0 +1,84 @@
+*********,*********
+Ron Mordoch (*********), Yarden Gavish (*********)
+EX: 2
+
+FILES:
+README
+Makefile
+Thread.h
+Thread.cpp
+uthreads.cpp
+
+REMARKS:
+We implemented a class Thread, which represents a single running thread.
+This class describes the Thread's features - id, priority, state, quantum count, and holds
+the environment from the thread - stack pointer and program counter.
+
+Our library implementation includes the functions that block/unblock the signals, resets the timer,
+and a timer handler function that calls the threads switching function when the signal arrives.
+The thread switching is performed as described in the Round-Robin algorithm.
+
+
+ANSWERS:
+1.
+User level threads are useful when we want to have the user experience a coherent, continuous
+execution of the process. For example, when playing a video on YouTube, we don’t want the user to
+wait every few seconds for the video the load, but to load the video while the user is watching
+so he can enjoy a simultaneous execution of the video.
+User level threads are also more fitting for a program where thread switching needs to happen
+efficiently.
+An example for this could be a  multi-tab text-editor. In this example, when the user switches
+tabs, there is a user-level thread switch. This is a good choice because the change should happen
+quickly, and the scheduling can be application specific, meaning that the switch should happen
+when the user decides (through the application interface), and there is no need for an intelligent
+scheduler to make this choice.
+
+2.
+Advantages:
+-	Separating the tabs’ processes from each other increasing the browser stability – if one tab
+ 	will encounter an error, or crash for example, it will not affect the other tabs.
+-	Separating the processes mean the tabs do not share memory at all (unlike threads in a
+	single process) and thus increasing the security of the program.
+	If we were to use kernel-level thread, one tab could access another’s resources and
+	potentially private information.
+-	Each tab can run multiple threads (because a  process can have multiple threads)
+	in case a few things are going on in a single tab.
+
+Disadvantages:
+-	If the user will run a large number of tabs, it may hinder the entire computer’s performance
+	due to the large requirements of memory and CPU usage for each process.
+-	Switching tabs means switching between processes, i.e. more overhead, which may result in a
+	slower execution of the entire program.
+
+3.
+Killing a process using the terminal and its process id involves a system call.
+The keyboard sends interrupts to the operating system indicating that a user
+(me) just typed something into the shell. This "something" is translated into a command;
+a system call of the OS. A signal is then sent to the running process by the operating system.
+This signal is then handled by the process, calling some function which will neatly shut down the
+program.
+Specifically, when we type “kill pid”, the keyboard sends interrupts to the OS which results in
+the screen showing “kill pid” in the shell window. The shell translates this into the kill()
+system call, which signals the processor to exit the ‘shotwell’ program.
+
+4.
+Real time is the actual time passed in the real world.
+
+Virtual time is the time passed during the execution of a process on the CPU.
+
+Real time example:
+Setting an alarm clock to wake you up the morning means the alarm clock should send a
+signal at the specified time in the real world.
+
+Another example would be ex2, when we the timer counts only the time the process spent
+executing on the CPU.
+
+Virtual time example:
+In a computer game, We can define a the course of a full day (24 hours – day/night cycle)
+in-game to be what is actually only an hour of real time, and thus enabling the player to
+play at different parts of the day of the in-game time without losing sleep.
+
+Another example would be ex1, when we checked the different run times of various operations on
+different machine types using real time – here we used real time because we were interested how
+long a specific operation took, including the time in which the CPU was not directly processing
+the operation, that is the user’s experience of how long the operation took.

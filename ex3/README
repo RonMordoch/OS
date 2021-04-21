@@ -1,0 +1,57 @@
+*********, *********
+Ron Mordoch (*********), Yarden Gavish (*********)
+EX: 3
+
+FILES:
+README
+Makefile
+MapReduceFramework.cpp
+Barrier.h
+Barrier.cpp
+
+
+REMARKS:
+In order to deal with all the different possibly synchronization problems between the shuffle, map,
+and reduce stages we used an atomic variable, mutexes, and a barrier. The barrier was used to check
+that all the threadsfinished mapping, so allow the n-1 thread to finish shuffling.
+The atomic variable was used as a counter in  both the map and reduce phase, so as each different
+thread would get a different index to read/write.
+The mutexes were used throughout the problem, especially when many different threads were
+writing into the same Output vector and when the map/shuffle phases happen at the same time.
+In general, we dislike maltreating as it causes many headaches, bugs, deadlocks, stress, nightmares,
+low self esteem, desire to drop out of school, total helplessness, etc. 
+
+File Word Counter:
+
+In the attached plot, we can see that the number of threads indeed reduces the run time of the job.
+However, after a certain number of threads there is no benefit in adding more threads.
+(Even at 100 threads, the time is about the same as at 10 threads, and even slightly worse!)
+This makes sense because as we saw, there is an ideal number of threads used for parallelization
+of different tasks. In this case, it seems it is at around 14 threads.
+
+We used the Aquarium computers from afar to run all the file word counter evaluations.
+This is the information of this CPU:
+Our CPU information:
+	CPU's: 40
+	Model name: Intel Xeon CPU E5-2650 v3 @ 2.30Ghz
+	Number of cores: 20
+
+Theoretical Questions:
+
+1) The optimal number of kernel level threads is 0. A CPU bound application means that limiting
+factor of runtime is the power of the CPU, and so adding any kernel-level threads would force
+system calls which add unnecessary overhead due to the OS taking control of the CPU.
+In this kind of application, adding kernel-level threads would only hinder the process and would
+not be beneficial in this case.
+
+
+2) Question 2
+	
+a) There will be 2n lines printed when there are n threads. Each thread creates a child process
+	and both the child and parent process will get to Barrier, that's why there are 2n lines
+	printed.
+	
+b) The order of the printing is not deterministic, when there are n threads, then there
+	are n!*n! different options of the printing of the lines. The parent processes will get to the
+	barrier first, and only afterward the child processes, so the different options of order of
+	printing are within the parent processes and then within the child processes.
